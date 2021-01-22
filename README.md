@@ -11,7 +11,7 @@ To run the pipeline:
 
 
 ```bash
-snakemake -np -r -s /home/max/Work/scripts/pipelines/SeqPreprocessing-snakemake/Snakefile --configfile /home/max/Work/scripts/pipelines/SeqPreprocessing-snakemake/preproc.yaml
+snakemake -np -r -s /home/max/Work/scripts/pipelines/SeqPreproc-snakemake/Snakefile --configfile /home/max/Work/scripts/pipelines/SeqPreproc-snakemake/preproc.yaml
 
-snakemake -p -r -s /home/max/Work/scripts/pipelines/SeqPreprocessing-snakemake/Snakefile --configfile /home/max/Work/scripts/pipelines/SeqPreprocessing-snakemake/preproc.yaml -cores 2
+snakemake -p -r -s /home/max/Work/scripts/pipelines/SeqPreproc-snakemake/Snakefile --configfile /home/max/Work/scripts/pipelines/SeqPreproc-snakemake/preproc.yaml -cores 2
 ```
