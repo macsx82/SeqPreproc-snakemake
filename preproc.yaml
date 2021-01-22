@@ -1,0 +1,38 @@
+#Parameter file for fastq preprocesing step
+samples: "/home/max/Work/OTHER_PJS/HQ_WGS_QC/pipeline_tests/samples_manifest.tsv"
+
+#prject name
+proj_name : "QC_trimming"
+
+############################################
+#Template to pre-process fastq files
+# with parameters for different tools in different rules
+
+fastqc_pre_dir: "1.FASTQC_PRE"
+trim_dir: "2.TRIMMED"
+fastqc_post_dir: "3.FASTQC_POST"
+multiqc_dir: "4.MULTI_QC"
+
+rules:
+    trimming_pe:
+        q: "20"         #quality
+        w: "4"          #window size for fastp
+        cR1: 0        #cut 5'
+        cR2: 0        #cut 5'
+        tpcR1: 0       #cut 3'
+        tpcR2: 0       #cut 3'
+        stringency: 7  #stringency parameter for adapter trimming [default is 1]
+
+#########SET UP YOUR EMAIL HERE ##############
+mail: ""
+#########SET UP YOUR EMAIL HERE ##############
+
+### - GENERAL PATHS - ###
+base_out: "/home/max/Work/OTHER_PJS/HQ_WGS_QC/pipeline_tests"
+log_dir: "Log"
+
+### - PATH TOOL - ###
+QC_TOOL: "fastqc"
+TRIM_TOOL: "fastp"
+
+
