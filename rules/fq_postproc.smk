@@ -17,6 +17,7 @@ rule fastq_qc_post:
         qc_tool = config["QC_TOOL"]
     message: """--- Quality check of trimmed data with FastQC """
     shell:
+        'module load fastqc;'
         'mkdir -p {params.dir};'
         '{params.qc_tool} -o {params.dir} -f fastq {input[0]} & '
         '{params.qc_tool} -o {params.dir} -f fastq {input[1]}'

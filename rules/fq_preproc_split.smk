@@ -15,6 +15,7 @@ rule fastq_qc_pre_r1:
         qc_tool = config["QC_TOOL"]
     message: """--- Quality check of raw data with FastQC before trimming."""
     shell:
+        'module load fastqc;'
         'mkdir -p {params.dir};'
         '{params.qc_tool} -o {params.dir} -f fastq {input.r1}'
 
@@ -34,5 +35,6 @@ rule fastq_qc_pre_r2:
         qc_tool = config["QC_TOOL"]
     message: """--- Quality check of raw data with FastQC before trimming."""
     shell:
+        'module load fastqc;'
         'mkdir -p {params.dir};'
         '{params.qc_tool} -o {params.dir} -f fastq {input.r2};'
