@@ -19,5 +19,4 @@ rule fastq_qc_post:
     shell:
         'module load fastqc;'
         'mkdir -p {params.dir};'
-        '{params.qc_tool} -o {params.dir} -f fastq {input[0]} & '
-        '{params.qc_tool} -o {params.dir} -f fastq {input[1]}'
+        '{params.qc_tool} -o {params.dir} -f fastq {input[0]} & {params.qc_tool} -o {params.dir} -f fastq {input[1]} 2> {log}'

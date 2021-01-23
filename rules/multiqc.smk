@@ -18,6 +18,3 @@ rule multiqc:
     #repeat for trimmed data
     multiqc -o {params.dir} -n {params.trim_html_name} {input.trimmed} #run multiqc
     """ 
-
-    #mv multiqc_data/multiqc_general_stats.txt {output.orig_stats} #move and rename stats
-    #mv multiqc_data/multiqc_general_stats.txt {output.trim_stats} #move and rename stats
