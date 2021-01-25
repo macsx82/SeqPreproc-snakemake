@@ -12,6 +12,9 @@ rule multiqc:
     trim_html_name = "trimmed_multiqc.html"
   # conda:
   #  "envs/multiqc-env.yaml"
+  log:
+    config["log_dir"] + "/multiqc.log",
+    config["log_dir"] + "/multiqc.e"
   shell: 
     """
     multiqc -o {params.dir} -n {params.orig_html_name} {input.orig} #run multiqc
