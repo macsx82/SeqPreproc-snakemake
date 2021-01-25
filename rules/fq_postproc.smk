@@ -12,6 +12,7 @@ rule fastq_qc_post:
     log:
         config["log_dir"] + "/{sample}-qc-post-trim.log",config["log_dir"] + "/{sample}-qc-post-trim.e"
     threads: 1
+    mem: 3000
     params:
         dir = expand('{BASE_DIR}/{QC_DIR}/', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_post_dir"]),
         qc_tool = config["QC_TOOL"]

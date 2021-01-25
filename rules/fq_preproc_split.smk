@@ -11,6 +11,7 @@ rule fastq_qc_pre_r1:
         config["log_dir"] + "/{sample}-qc-before-trim_R1.log",
         config["log_dir"] + "/{sample}-qc-before-trim_R1.e"
     threads: 1
+    mem: 3000
     params:
         dir = expand('{BASE_DIR}/{QC_DIR}/', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"]),
         qc_tool = config["QC_TOOL"]
@@ -32,6 +33,7 @@ rule fastq_qc_pre_r2:
         config["log_dir"] + "/{sample}-qc-before-trim_R2.log",
         config["log_dir"] + "/{sample}-qc-before-trim_R2.e"
     threads: 1
+    mem: 3000
     params:
         dir = expand('{BASE_DIR}/{QC_DIR}/', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"]),
         qc_tool = config["QC_TOOL"]
