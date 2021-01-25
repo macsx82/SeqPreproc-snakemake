@@ -14,12 +14,15 @@ rule fastq_qc_post:
     threads: 1
     resources:
         mem_mb=3000
+    benchmark:
+        BASE_OUT +"/"+config["fastqc_post_dir"]+ "/{sample}_fastqc_post.tsv"
     params:
         dir = expand('{BASE_DIR}/{QC_DIR}/', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_post_dir"]),
         qc_tool = config["QC_TOOL"]
     message: """--- Quality check of trimmed data with FastQC """
     shell:
-        'module load fastqc;'
-        'mkdir -p {params.dir};'
-        # '{params.qc_tool} -o {params.dir} -f fastq {input[0]} & {params.qc_tool} -o {params.dir} -f fastq {input[1]}'
-        '{params.qc_tool} -o {params.dir} -f fastq {input[0]} & {params.qc_tool} -o {params.dir} -f fastq {input[1]} 2> {log[1]}'
+        """
+        module load fastqc;
+        mkdir -p {params.dir};
+        {params.qc_tool} -o {params.dir} -f fastq {input[0]} & {params.qc_tool} -o {params.dir} -f fastq {input[1]} 2> {log[1]}
+        """

@@ -13,14 +13,18 @@ rule fastq_qc_pre_r1:
     threads: 1
     resources:
         mem_mb=3000
+    benchmark:
+        BASE_OUT +"/"+config["fastqc_pre_dir"]+ "/{sample}_fastqc_pre.tsv"
     params:
         dir = expand('{BASE_DIR}/{QC_DIR}/', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"]),
         qc_tool = config["QC_TOOL"]
     message: """--- Quality check of raw data with FastQC before trimming."""
     shell:
-        'module load fastqc;'
-        'mkdir -p {params.dir};'
-        '{params.qc_tool} -o {params.dir} -f fastq {input.r1} 2> {log[1]}'
+        """
+        module load fastqc;
+        mkdir -p {params.dir};
+        {params.qc_tool} -o {params.dir} -f fastq {input.r1} 2> {log[1]}
+        """
 
 rule fastq_qc_pre_r2:
     wildcard_constraints:
@@ -36,12 +40,16 @@ rule fastq_qc_pre_r2:
     threads: 1
     resources:
         mem_mb=3000
+    benchmark:
+        BASE_OUT +"/"+config["fastqc_pre_dir"]+ "/{sample}_fastqc_pre.tsv"
     params:
         dir = expand('{BASE_DIR}/{QC_DIR}/', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"]),
         qc_tool = config["QC_TOOL"]
     message: """--- Quality check of raw data with FastQC before trimming."""
     shell:
-        'module load fastqc;'
-        'mkdir -p {params.dir};'
-        '{params.qc_tool} -o {params.dir} -f fastq {input.r2} 2> {log[1]}'
+        """
+        module load fastqc;
+        mkdir -p {params.dir};
+        {params.qc_tool} -o {params.dir} -f fastq {input.r2} 2> {log[1]}
+        """
         # '{params.qc_tool} -o {params.dir} -f fastq {input.r2}; 2> {log}'

@@ -24,6 +24,7 @@ rule trimming_pe:
         config["log_dir"] + "/{sample}-trimming.log",
         config["log_dir"] + "/{sample}-trimming.e"
     shell:
-        'module load fastp;'
-        # '{params.trim_tool} {params.extra} -w {threads} --in1 {input.r1} --in2 {input.r2} --out1 {output.r1} --out2 {output.r2} --unpaired1 {output.u1} --unpaired2 {output.u2} --json {output.j} --html {output.h}'
-        '{params.trim_tool} {params.extra} -w {threads} --in1 {input.r1} --in2 {input.r2} --out1 {output.r1} --out2 {output.r2} --unpaired1 {output.u1} --unpaired2 {output.u2} --json {output.j} --html {output.h} 2> {log[1]}'
+        """
+        module load fastp;
+        {params.trim_tool} {params.extra} -w {threads} --in1 {input.r1} --in2 {input.r2} --out1 {output.r1} --out2 {output.r2} --unpaired1 {output.u1} --unpaired2 {output.u2} --json {output.j} --html {output.h} 2> {log[1]}
+        """

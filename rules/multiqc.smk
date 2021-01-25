@@ -15,6 +15,8 @@ rule multiqc:
   threads: 1
   resources:
     mem_mb=3000
+  benchmark:
+        BASE_OUT +"/"+config["multiqc_dir"]+ "/multiqc.tsv"
   log:
     config["log_dir"] + "/multiqc.log",
     config["log_dir"] + "/multiqc.e"
