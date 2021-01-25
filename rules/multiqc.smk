@@ -13,7 +13,8 @@ rule multiqc:
   # conda:
   #  "envs/multiqc-env.yaml"
   threads: 1
-  mem: 3000
+  resources:
+    mem_mb=3000
   log:
     config["log_dir"] + "/multiqc.log",
     config["log_dir"] + "/multiqc.e"
