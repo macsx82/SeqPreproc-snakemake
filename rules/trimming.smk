@@ -15,9 +15,9 @@ rule trimming_pe:
         trim_tool=config['TRIM_TOOL'],
         # dir = expand('{BASE_DIR}/{QC_DIR}/', BASE_DIR=BASE_OUT, QC_DIR=config["trim_dir"]),
         extra="--detect_adapter_for_pe -W "+ config['rules']['trimming_pe']['w'] +" -M "+config['rules']['trimming_pe']['q']+" -5 -3"
-    threads: 24
+    threads: 16
     resources:
-        mem_mb=10000
+        mem_mb=5000
     benchmark:
         BASE_OUT +"/"+config["trim_dir"]+ "/{sample}/{sample}_trimming.tsv"
     log:
