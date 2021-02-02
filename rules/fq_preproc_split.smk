@@ -12,7 +12,7 @@ rule fastq_qc_pre_r1:
         config["log_dir"] + "/{sample}-qc-before-trim_R1.e"
     threads: 1
     resources:
-        mem_mb=3000
+        mem_mb=4000
     benchmark:
         BASE_OUT +"/"+config["fastqc_pre_dir"]+ "/{sample}_fastqc_pre.tsv"
     params:
@@ -39,7 +39,7 @@ rule fastq_qc_pre_r2:
         config["log_dir"] + "/{sample}-qc-before-trim_R2.e"
     threads: 1
     resources:
-        mem_mb=3000
+        mem_mb=4000
     benchmark:
         BASE_OUT +"/"+config["fastqc_pre_dir"]+ "/{sample}_fastqc_pre.tsv"
     params:

@@ -13,7 +13,7 @@ rule fastq_qc_post:
         config["log_dir"] + "/{sample}-qc-post-trim.log",config["log_dir"] + "/{sample}-qc-post-trim.e"
     threads: 1
     resources:
-        mem_mb=3000
+        mem_mb=4000
     benchmark:
         BASE_OUT +"/"+config["fastqc_post_dir"]+ "/{sample}_fastqc_post.tsv"
     params:
