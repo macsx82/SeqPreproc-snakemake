@@ -53,7 +53,7 @@ rule all:
         #multiqc output
         orig_html = BASE_OUT + "/" + config["multiqc_dir"] + "/raw_multiqc.html", 
         trim_html = BASE_OUT + "/" + config["multiqc_dir"] + "/trimmed_multiqc.html"
- 	
+
 
 ##### load rules #####
 
