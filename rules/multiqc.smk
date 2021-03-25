@@ -20,6 +20,8 @@ rule multiqc:
   log:
     config["log_dir"] + "/multiqc.log",
     config["log_dir"] + "/multiqc.e"
+  envmodules:
+    "multiqc/1.9"
   shell: 
     """
     multiqc -o {params.dir} -n {params.orig_html_name} {input.orig} 2> {log[1]} #run multiqc

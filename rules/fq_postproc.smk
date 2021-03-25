@@ -19,10 +19,11 @@ rule fastq_qc_post:
     params:
         dir = expand('{BASE_DIR}/{QC_DIR}/', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_post_dir"]),
         qc_tool = config["QC_TOOL"]
+    envmodules:
+        "fastqc/0.11.9"
     message: """--- Quality check of trimmed data with FastQC """
     shell:
         """
-        module load fastqc;
         mkdir -p {params.dir};
         {params.qc_tool} -o {params.dir} -f fastq {input[0]} 2> {log[1]}
         {params.qc_tool} -o {params.dir} -f fastq {input[1]} 2>> {log[1]}

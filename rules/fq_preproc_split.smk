@@ -18,10 +18,11 @@ rule fastq_qc_pre_r1:
     params:
         dir = expand('{BASE_DIR}/{QC_DIR}/', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"]),
         qc_tool = config["QC_TOOL"]
+    envmodules:
+        "fastqc/0.11.9"
     message: """--- Quality check of raw data with FastQC before trimming."""
     shell:
         """
-        module load fastqc;
         mkdir -p {params.dir};
         {params.qc_tool} -o {params.dir} -f fastq {input.r1} 2> {log[1]}
         """
@@ -45,10 +46,11 @@ rule fastq_qc_pre_r2:
     params:
         dir = expand('{BASE_DIR}/{QC_DIR}/', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"]),
         qc_tool = config["QC_TOOL"]
+    envmodules:
+        "fastqc/0.11.9"
     message: """--- Quality check of raw data with FastQC before trimming."""
     shell:
         """
-        module load fastqc;
         mkdir -p {params.dir};
         {params.qc_tool} -o {params.dir} -f fastq {input.r2} 2> {log[1]}
         """
