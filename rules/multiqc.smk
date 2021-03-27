@@ -27,5 +27,5 @@ rule multiqc:
     """
     multiqc -o {params.dir} -n {params.orig_html_name} {input.orig} 2> {log[1]} #run multiqc
     #repeat for trimmed data
-    multiqc -o {params.dir} -n {params.trim_html_name} {input.trimmed} 2> {log[1]} #run multiqc
+    multiqc -o {params.dir} -n {params.trim_html_name} {input.trimmed} 2>> {log[1]} #run multiqc
     """ 
