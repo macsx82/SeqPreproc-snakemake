@@ -1,17 +1,13 @@
 #define rule for fastqc run on trimmed data
 rule fastq_qc_post:
     output:
-        # BASE_OUT + "/" + config["fastqc_post_dir"] + "/{sample}_fastqc.html",
-        # BASE_OUT + "/" + config["fastqc_post_dir"] + "/{sample}_fastqc.zip"
         expand('{BASE_DIR}/{QC_DIR}/{{sample}}_R1_trimmed_fastqc.{ext}', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_post_dir"], sample=sample_names,ext=['html','zip']),
         expand('{BASE_DIR}/{QC_DIR}/{{sample}}_R2_trimmed_fastqc.{ext}', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_post_dir"], sample=sample_names,ext=['html','zip'])
     input:
-        # r1 = BASE_OUT +"/"+config["trim_dir"]+ "/{pippo}/{pippo}_R1_trimmed.fq.gz",
-        # r2 = BASE_OUT +"/"+config["trim_dir"]+ "/{pippo}/{pippo}_R2_trimmed.fq.gz",
         rules.trimming_pe.output.r1, rules.trimming_pe.output.r2
     log:
         config["log_dir"] + "/{sample}-qc-post-trim.log",config["log_dir"] + "/{sample}-qc-post-trim.e"
-    threads: 1
+    threads: 2
     resources:
         mem_mb=4000
     benchmark:
@@ -21,10 +17,11 @@ rule fastq_qc_post:
         qc_tool = config["QC_TOOL"]
     envmodules:
         "fastqc/0.11.9"
+    group: "postqc"
     message: """--- Quality check of trimmed data with FastQC """
     shell:
         """
         mkdir -p {params.dir};
-        {params.qc_tool} -o {params.dir} -f fastq {input[0]} 2> {log[1]}
-        {params.qc_tool} -o {params.dir} -f fastq {input[1]} 2>> {log[1]}
+        {params.qc_tool} -o {params.dir} -t {threads} -f fastq {input[0]} {input[1]} 2>> {log[1]}
+        # {params.qc_tool} -o {params.dir} -f fastq {input[1]} 2>> {log[1]}
         """
