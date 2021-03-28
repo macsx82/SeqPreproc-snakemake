@@ -25,3 +25,23 @@ rule fastq_qc_post:
         {params.qc_tool} -o {params.dir} -t {threads} -f fastq {input[0]} {input[1]} 2>> {log[1]}
         # {params.qc_tool} -o {params.dir} -f fastq {input[1]} 2>> {log[1]}
         """
+
+#define a shadow rule to insert in the processing group before the multiqc rule, in order to be able to run rules grouped by sample
+rule preproc_collect:
+    output:
+        touch(BASE_OUT + "/" + config["fastqc_post_dir"] + "/{sample}_preproc.done")
+    input:
+        rules.fastq_qc_pre_r1.output[0], rules.fastq_qc_pre_r2.output[0], 
+        rules.trimming_pe.output.r1, rules.trimming_pe.output.r2, 
+        rules.fastq_qc_post.output
+    log:
+        config["log_dir"] + "/{sample}-preproc_collect.log",config["log_dir"] + "/{sample}-preproc_collect.e"
+    threads: 1
+    resources:
+        mem_mb=1000
+    group: "preproc"
+    message: """--- Collection rule """
+    shell:
+        """
+        sleep 10 2>> {log[1]}
+        """
