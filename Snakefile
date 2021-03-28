@@ -51,7 +51,7 @@ rule all:
         # [(BASE_OUT +"/"+ config["fastqc_post_dir"] + "/{sample}_R2_trimmed_fastqc.html").format(sample=sample_id) for sample_id in sample_names],
         # [(BASE_OUT +"/"+ config["fastqc_post_dir"] + "/{sample}_R2_trimmed_fastqc.zip").format(sample=sample_id) for sample_id in sample_names]
         #collection rule output
-        [(BASE_OUT + "/" + config["fastqc_post_dir"] + "/{sample}_preproc.done").format(sample=sample_id) for sample_id in sample_names]
+        [(BASE_OUT + "/" + config["fastqc_post_dir"] + "/{sample}_preproc.done").format(sample=sample_id) for sample_id in sample_names],
         #multiqc output
         orig_html = BASE_OUT + "/" + config["multiqc_dir"] + "/raw_multiqc.html", 
         trim_html = BASE_OUT + "/" + config["multiqc_dir"] + "/trimmed_multiqc.html"
