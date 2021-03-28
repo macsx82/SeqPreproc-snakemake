@@ -17,7 +17,7 @@ rule fastq_qc_post:
         qc_tool = config["QC_TOOL"]
     envmodules:
         "fastqc/0.11.9"
-    group: "postqc"
+    group: "preproc"
     message: """--- Quality check of trimmed data with FastQC """
     shell:
         """
