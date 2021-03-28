@@ -20,7 +20,7 @@ rule fastq_qc_pre_r1:
         qc_tool = config["QC_TOOL"]
     envmodules:
         "fastqc/0.11.9"
-    group: "preqc"
+    group: "preproc"
     message: """--- Quality check of raw data with FastQC before trimming."""
     shell:
         """
@@ -49,7 +49,7 @@ rule fastq_qc_pre_r2:
         qc_tool = config["QC_TOOL"]
     envmodules:
         "fastqc/0.11.9"
-    group: "preqc"
+    group: "preproc"
     message: """--- Quality check of raw data with FastQC before trimming."""
     shell:
         """
