@@ -31,8 +31,8 @@ rule preproc_collect:
     output:
         touch(BASE_OUT + "/" + config["fastqc_post_dir"] + "/{sample}_preproc.done")
     input:
-        rules.fastq_qc_pre_r1.output[0], rules.fastq_qc_pre_r2.output[0], 
-        rules.trimming_pe.output.r1, rules.trimming_pe.output.r2, 
+        rules.fastq_qc_pre_r1.output[0], rules.fastq_qc_pre_r2.output[0],
+        rules.trimming_pe.output.r1, rules.trimming_pe.output.r2,
         rules.fastq_qc_post.output
     log:
         config["log_dir"] + "/{sample}-preproc_collect.log",config["log_dir"] + "/{sample}-preproc_collect.e"
