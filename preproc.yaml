@@ -15,8 +15,9 @@ multiqc_dir: "4.MULTI_QC"
 
 rules:
     trimming_pe:
-        q: "20"         #quality
-        w: "4"          #window size for fastp
+        q: "20"         #quality (20, default)
+        w: "4"          #window size for fastp (4, default)
+        len: "15"          #minimum read length for filtering (15, default)
         cR1: 0        #cut 5'
         cR2: 0        #cut 5'
         tpcR1: 0       #cut 3'

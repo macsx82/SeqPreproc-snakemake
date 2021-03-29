@@ -11,7 +11,7 @@ rule trimming_pe:
         r2 = lambda wc: samples_df[samples_df.SAMPLE_ID == (wc.sample).split(sep="_")[0]].fq2
     params:
         trim_tool=config['TRIM_TOOL'],
-        extra="--detect_adapter_for_pe -W "+ config['rules']['trimming_pe']['w'] +" -M "+config['rules']['trimming_pe']['q']+" -5 -3"
+        extra="-V --detect_adapter_for_pe -W "+ config['rules']['trimming_pe']['w'] +" -M "+config['rules']['trimming_pe']['q']+" -5 -3 -l "+config['rules']['trimming_pe']['len']
     threads: 12
     resources:
         mem_mb=5000
