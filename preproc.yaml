@@ -18,11 +18,11 @@ rules:
         q: "20"         #quality (20, default)
         w: "4"          #window size for fastp (4, default)
         len: "15"          #minimum read length for filtering (15, default)
-        cR1: 0        #cut 5'
-        cR2: 0        #cut 5'
-        tpcR1: 0       #cut 3'
-        tpcR2: 0       #cut 3'
-        stringency: 7  #stringency parameter for adapter trimming [default is 1]
+        cR1: "0"        #cut 5'
+        cR2: "0"        #cut 5'
+        tpcR1: "0"       #cut 3'
+        tpcR2: "0"       #cut 3'
+        stringency: "7"  #stringency parameter for adapter trimming [default is 1]
 
 #########SET UP YOUR EMAIL HERE ##############
 mail: ""
