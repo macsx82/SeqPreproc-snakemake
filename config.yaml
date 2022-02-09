@@ -7,12 +7,6 @@ proj_name : "QC_trimming"
 ############################################
 #Template to pre-process fastq files
 # with parameters for different tools in different rules
-
-fastqc_pre_dir: "1.FASTQC_PRE"
-trim_dir: "2.TRIMMED"
-fastqc_post_dir: "3.FASTQC_POST"
-multiqc_dir: "4.MULTI_QC"
-
 rules:
     trimming_pe:
         q: "20"         #quality (20, default)
@@ -30,7 +24,13 @@ mail: ""
 
 ### - GENERAL PATHS - ###
 base_out: "/home/max/Work/OTHER_PJS/HQ_WGS_QC/pipeline_tests"
+
+### - RELATIVE PATHS - ###
 log_dir: "Log"
+fastqc_pre_dir: "1.FASTQC_PRE"
+trim_dir: "2.TRIMMED"
+fastqc_post_dir: "3.FASTQC_POST"
+multiqc_dir: "4.MULTI_QC"
 
 ### - PATH TOOL - ###
 QC_TOOL: "fastqc"
