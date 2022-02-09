@@ -119,7 +119,7 @@ snakefile=/<USER_DEFINED_PATH>/SeqPreproc-snakemake/Snakefile
 configfile=/<USER_DEFINED_PATH>/PREPROCESSING/preprocessing_pipeline.yaml
 cores=24
 
-snakemake -p -r -s ${snakefile} --configfile ${configfile} --use-envmodules --keep-going -cores ${cores}
+snakemake -p -r -s ${snakefile} --configfile ${configfile} --use-envmodules --keep-going --cores ${cores}
 
 ```
 
@@ -152,7 +152,7 @@ queue=thin
 snakemake -p -r -s ${snakefile} --configfile ${configfile} --use-envmodules --keep-going --cluster "qsub -q ${queue} -V -k eod -l select=1:ncpus={threads}:mem={resources.mem_mb}mb -l walltime=96:00:00" -j ${cores} 1> ${log_name} 2> ${stderr_name}
 ```
 
-In this example we defined also the name for two additional log files, which will help to keep track of the pipeline execution.
+In this example we defined also the name for two additional log files, which will help to keep track of the pipeline execution. In this case, the **-j** option will define how many concurrent jobs are submitted on the cluster.
 
 
 
