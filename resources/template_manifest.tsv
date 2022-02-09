@@ -1,0 +1,4 @@
+SAMPLE_ID fq1 fq2
+S_ID1 <absolute_path_R1.fastq.gz> <absolute_path_R2.fastq.gz>
+S_ID2 <absolute_path_R1.fastq.gz> <absolute_path_R2.fastq.gz>
+S_ID3 <absolute_path_R1.fastq.gz> <absolute_path_R2.fastq.gz>
