@@ -1,7 +1,7 @@
 #Parameter file for fastq preprocesing step
-samples: "/home/max/Work/OTHER_PJS/HQ_WGS_QC/pipeline_tests/samples_manifest.tsv"
+samples: "/home/max/Work/OTHER_PJS/HQ_WGS_QC/pipeline_tests/samples_manifest.tsv" #define the samples manifest file
 
-#prject name
+#project name
 proj_name : "QC_trimming"
 
 ############################################
@@ -16,21 +16,16 @@ rules:
         cR2: "0"        #cut 5'
         tpcR1: "0"       #cut 3'
         tpcR2: "0"       #cut 3'
-        stringency: "7"  #stringency parameter for adapter trimming [default is 1]
-
-#########SET UP YOUR EMAIL HERE ##############
-mail: ""
-#########SET UP YOUR EMAIL HERE ##############
 
 ### - GENERAL PATHS - ###
-base_out: "/home/max/Work/OTHER_PJS/HQ_WGS_QC/pipeline_tests"
+base_out: "/home/max/Work/OTHER_PJS/HQ_WGS_QC/pipeline_tests" #modify this path to define the pipeline output folder
 
 ### - RELATIVE PATHS - ###
-log_dir: "Log"
-fastqc_pre_dir: "1.FASTQC_PRE"
-trim_dir: "2.TRIMMED"
-fastqc_post_dir: "3.FASTQC_POST"
-multiqc_dir: "4.MULTI_QC"
+log_dir: "Log"                   #this path is relative to the pipeline EXECUTION FOLDER
+fastqc_pre_dir: "1.FASTQC_PRE"   #this path is relative to the pipeline BASE_OUT FOLDER defined above
+trim_dir: "2.TRIMMED"            #this path is relative to the pipeline BASE_OUT FOLDER defined above
+fastqc_post_dir: "3.FASTQC_POST" #this path is relative to the pipeline BASE_OUT FOLDER defined above
+multiqc_dir: "4.MULTI_QC"        #this path is relative to the pipeline BASE_OUT FOLDER defined above
 
 ### - PATH TOOL - ###
 QC_TOOL: "fastqc"

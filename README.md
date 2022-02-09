@@ -35,6 +35,16 @@ In order to run the pipeline, the following python packages have to be installed
 + re
 + snakemake
 
+### Other requirements
+
+Absolute paths of the fastq files (saparate files for R1 and R2 strand) to be processed, named with the **Illumina convention**, demultiplexed.
+
+Manifest file following the template provided in the **resource** folder, space separated and with the following header line:
+
+```
+SAMPLE_ID fq1 fq2
+```
+
 
 ### ORFEO/general set up
 1. Install Snakemake via conda ([link](https://snakemake.readthedocs.io/en/stable/getting\_started/installation.html));
@@ -76,44 +86,102 @@ The clone command to use is:
 This command will create a new folder, in the current location, named **SeqPreproc-snakemake**
 
 
+Before running the pipeline, it is necessary to provide some information using a config file. A config file template, with default values is provided and it is named **config.yaml**
 
+It is advisable not to execute the pipeline in the repository folder, but to create a separate folder and a copy a copy of the config file to fill the relevant parameters.
 
+To exploit the trimming functions of the pipeline, the parameters:
 
-To run the pipeline:
++ cR1
++ cR2
++ tpcR1
++ tpcR2
 
+should be set according to the desired number of bp to trim from each read.
+
+### Running the pipeline
+
+There are differen ways to run the pipeline: **Local mode**, **Cluster mode** or **Single node mode**
+
+### Local mode
+
+In Local mode, the pipeline is execute in an interactive shell session (locally or on a cluster) and all the rules are treated as processes that can be run sequentially or in parallel, depending on the resources provided. One example of a Local execution is:
 
 ```bash
-module load fastp
-module load fastqc
 conda activate snakemake
 
-snakemake -np -r -s /home/max/Work/scripts/pipelines/SeqPreproc-snakemake/Snakefile --configfile /home/max/Work/scripts/pipelines/SeqPreproc-snakemake/preproc.yaml
+base_cwd=/<USER_DEFINED_PATH>/PREPROCESSING
+log_folder=${base_cwd}/Log
+mkdir -p ${log_folder}
+cd ${base_cwd}
 
-snakemake -p -r -s /home/max/Work/scripts/pipelines/SeqPreproc-snakemake/Snakefile --configfile /home/max/Work/scripts/pipelines/SeqPreproc-snakemake/preproc.yaml -cores 2
+snakefile=/<USER_DEFINED_PATH>/SeqPreproc-snakemake/Snakefile
+configfile=/<USER_DEFINED_PATH>/PREPROCESSING/preprocessing_pipeline.yaml
+cores=24
+
+snakemake -p -r -s ${snakefile} --configfile ${configfile} --use-envmodules --keep-going -cores ${cores}
+
 ```
 
+In this example we assumed we had 24 CPU available for our calculation
 
 
+
+### Cluster mode
+
+In cluster mode, the pipeline runs on a interactive shell (**screen or tmux**) and each rule is submitted as a job on the cluster.
+One example of a Cluster execution, on the **ORFEO cluster**, is:
 
 ```bash
 module load conda
 conda activate snakemake
 
-log_folder=/large/___HOME___/burlo/cocca/analyses/FVG_HC_WGS/2021_AREA_QC/BATCH_20210507/20210802_PREPROCESSING/Log
+base_cwd=/<USER_DEFINED_PATH>/PREPROCESSING
+log_folder=${base_cwd}/Log
 mkdir -p ${log_folder}
-base_cwd=/large/___HOME___/burlo/cocca/analyses/FVG_HC_WGS/2021_AREA_QC/BATCH_20210507/20210802_PREPROCESSING
 cd ${base_cwd}
 
-snakefile=/large/___HOME___/burlo/cocca/scripts/pipelines/SeqPreproc-snakemake/Snakefile
-configfile=/large/___HOME___/burlo/cocca/analyses/FVG_HC_WGS/2021_AREA_QC/BATCH_20210507/20210802_PREPROCESSING/preprocessing_AREA_B2_20210802.yaml
-log_name=preprocessing_AREA_B2_20210802.log
-stderr_name=preprocessing_AREA_B2_20210802.err
+snakefile=/<USER_DEFINED_PATH>/SeqPreproc-snakemake/Snakefile
+configfile=/<USER_DEFINED_PATH>/PREPROCESSING/preprocessing_pipeline.yaml
+
+log_name=preprocessing_pipeline.log
+stderr_name=preprocessing_pipeline.err
 cores=24
 queue=thin
-mem=550g
 
-# snakemake -p -r -s ${snakefile} --configfile ${configfile} --use-envmodules --keep-going --cluster "qsub -q thin -V -k eod -o {log[0]} -e {log[1]} -l nodes=1:ppn={threads} -l walltime=96:00:00 -l mem={resources.mem_mb}mb" -j 50 > ${log_name} 2>&1
-# snakemake -p -r -s ${snakefile} --configfile ${configfile} --use-envmodules --keep-going --cluster "qsub -q thin -V -l nodes=1:ppn={threads} -l walltime=96:00:00 -l mem={resources.mem_mb}mb" -j 50 > ${log_name} 2>&1
-# snakemake -p -r -s ${snakefile} --configfile ${configfile} --use-envmodules --keep-going --batch all=1/5 --cluster "qsub -q thin -V -l nodes=1:ppn={threads} -l walltime=96:00:00 -l mem={resources.mem_mb}mb" -j 50 > ${log_name} 2>&1
-snakemake -p -r -s ${snakefile} --configfile ${configfile} --use-envmodules --keep-going --cluster "qsub -q thin -V -k eod -l select=1:ncpus={threads}:mem={resources.mem_mb}mb -l walltime=96:00:00" -j ${cores} 1> ${log_name} 2> ${stderr_name}
+snakemake -p -r -s ${snakefile} --configfile ${configfile} --use-envmodules --keep-going --cluster "qsub -q ${queue} -V -k eod -l select=1:ncpus={threads}:mem={resources.mem_mb}mb -l walltime=96:00:00" -j ${cores} 1> ${log_name} 2> ${stderr_name}
 ```
+
+In this example we defined also the name for two additional log files, which will help to keep track of the pipeline execution.
+
+
+
+### Single node mode
+
+In Single node mode, the pipeline runs as a job on the cluster and all rules are treated as processes that can be run sequentially or in parallel, depending on the resources provided. Similar to the Local execution mode.
+One example of a single node mode execution, on the **ORFEO cluster**, is:
+
+```bash
+module load conda
+conda activate snakemake
+
+base_cwd=/<USER_DEFINED_PATH>/PREPROCESSING
+log_folder=${base_cwd}/Log
+mkdir -p ${log_folder}
+cd ${base_cwd}
+
+snakefile=/<USER_DEFINED_PATH>/SeqPreproc-snakemake/Snakefile
+configfile=/<USER_DEFINED_PATH>/PREPROCESSING/preprocessing_pipeline.yaml
+
+log_name=preprocessing_pipeline.log
+stderr_name=preprocessing_pipeline.err
+cores=24
+queue=thin
+mem=750g
+
+echo "cd ${base_cwd};module load conda;conda activate snakemake; snakemake -p -r -s ${snakefile} --configfile ${configfile} --cores ${cores} --use-envmodules --keep-going" | qsub -N snake_preprocessing -q ${queue} -V -k eod -o ${log_folder}/${log_name} -e ${log_folder}/${stderr_name} -l select=1:ncpus=${cores}:mem=${mem} -l walltime=96:00:00
+done
+```
+
+In this example we selected an entire cluster node on the "thin" queue of the ORFEO cluster, defining the number of CPU (24) and the total amount of RAM required to run the pipeline (750g). We defined also the name for the two additional log files, to keep track of the pipeline execution.
+

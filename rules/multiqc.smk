@@ -4,13 +4,9 @@ rule multiqc_pre:
     orig_html = BASE_OUT + "/" + config["multiqc_dir"] + "/raw_multiqc.html"
   input:
     orig = expand("{BASE_DIR}/{QC_DIR}/{sample}_fastqc.zip", BASE_DIR= BASE_OUT, QC_DIR=config["fastqc_pre_dir"], sample=R1+R2)
-    # trimmed = expand("{BASE_DIR}/{QC_DIR}/{sample}_R{num}_trimmed_fastqc.zip", BASE_DIR= BASE_OUT, QC_DIR=config["fastqc_post_dir"],sample=sample_names,num=[1,2])
   params:
     dir = expand('{BASE_DIR}/{QC_DIR}/', BASE_DIR=BASE_OUT, QC_DIR=config["multiqc_dir"]),
     orig_html_name = "raw_multiqc.html"
-    # trim_html_name = "trimmed_multiqc.html"
-  # conda:
-  #  "envs/multiqc-env.yaml"
   threads: 1
   resources:
     mem_mb=3000
@@ -31,15 +27,11 @@ rule multiqc_post:
   output:
     trim_html = BASE_OUT + "/" + config["multiqc_dir"] + "/trimmed_multiqc.html"
   input:
-    # orig = expand("{BASE_DIR}/{QC_DIR}/{sample}_fastqc.zip", BASE_DIR= BASE_OUT, QC_DIR=config["fastqc_pre_dir"], sample=R1+R2),
     trimmed = expand("{BASE_DIR}/{QC_DIR}/{sample}_R{num}_trimmed_fastqc.zip", BASE_DIR= BASE_OUT, QC_DIR=config["fastqc_post_dir"],sample=sample_names,num=[1,2]),
     fastp = expand("{BASE_DIR}/{TRIM_DIR}/{sample}/{sample}_fastp.json", BASE_DIR= BASE_OUT, TRIM_DIR=config["trim_dir"],sample=sample_names)
   params:
     dir = expand('{BASE_DIR}/{QC_DIR}/', BASE_DIR=BASE_OUT, QC_DIR=config["multiqc_dir"]),
-    # orig_html_name = "raw_multiqc.html", 
     trim_html_name = "trimmed_multiqc.html"
-  # conda:
-  #  "envs/multiqc-env.yaml"
   threads: 1
   resources:
     mem_mb=3000
