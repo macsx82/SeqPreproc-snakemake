@@ -30,5 +30,5 @@ multiqc_dir: "4.MULTI_QC"        #this path is relative to the pipeline BASE_OUT
 ### - PATH TOOL - ###
 QC_TOOL: "fastqc"
 TRIM_TOOL: "fastp"
-
+MULTI_QC: "multiqc"
 

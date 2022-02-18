@@ -6,7 +6,8 @@ rule multiqc_pre:
     orig = expand("{BASE_DIR}/{QC_DIR}/{sample}_fastqc.zip", BASE_DIR= BASE_OUT, QC_DIR=config["fastqc_pre_dir"], sample=R1+R2)
   params:
     dir = expand('{BASE_DIR}/{QC_DIR}/', BASE_DIR=BASE_OUT, QC_DIR=config["multiqc_dir"]),
-    orig_html_name = "raw_multiqc.html"
+    orig_html_name = "raw_multiqc.html",
+    mqc_bin=config["MULTI_QC"]
   threads: 1
   resources:
     mem_mb=3000
@@ -20,7 +21,7 @@ rule multiqc_pre:
   shell: 
     """
     #collect fastq results for original data
-    multiqc -o {params.dir} -n {params.orig_html_name} {input.orig} 2> {log[1]} #run multiqc
+    {params.mqc_bin} -o {params.dir} -n {params.orig_html_name} {input.orig} 2> {log[1]} #run multiqc
     """ 
 
 rule multiqc_post:
@@ -31,7 +32,8 @@ rule multiqc_post:
     fastp = expand("{BASE_DIR}/{TRIM_DIR}/{sample}/{sample}_fastp.json", BASE_DIR= BASE_OUT, TRIM_DIR=config["trim_dir"],sample=sample_names)
   params:
     dir = expand('{BASE_DIR}/{QC_DIR}/', BASE_DIR=BASE_OUT, QC_DIR=config["multiqc_dir"]),
-    trim_html_name = "trimmed_multiqc.html"
+    trim_html_name = "trimmed_multiqc.html",
+    mqc_bin=config["MULTI_QC"]
   threads: 1
   resources:
     mem_mb=3000
@@ -45,5 +47,5 @@ rule multiqc_post:
   shell: 
     """
     #multiqc collection for trimmed data
-    multiqc -o {params.dir} -n {params.trim_html_name} {input.trimmed} {input.fastp} 2>> {log[1]} #run multiqc
+    {params.mqc_bin} -o {params.dir} -n {params.trim_html_name} {input.trimmed} {input.fastp} 2>> {log[1]} #run multiqc
     """ 

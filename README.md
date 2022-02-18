@@ -2,7 +2,7 @@
 
 This pipeline aims to provide a tool to get a first look at fastq data. With this pipelinie we will:
 
-1) Perform a astQC check on raw fastq data
+1) Perform a FastQC check on raw fastq data
 2) Perform trimming on the fastq files
 3) Rerun a fastQC check after trimming 
 4) Generate a multiQC report to have a comprehensive look at the data
@@ -36,6 +36,41 @@ In order to run the pipeline, the following python packages have to be installed
 + snakemake
 
 ### Other requirements
+
+If the fastq files are provided as multiplexed files (multiple fastq files per sample), it is necessary to perform a merging step, to generate the initial files to be processed.
+
+As a practical example, data produced by the AREA sequencing facility are generated performing different sequencing runs on the same sample, therefore, we will have multiple fastq files with the same file name, located in different folders. 
+Below an example of the code that can be used to merge files coming from two different runs.
+
+```bash
+declare -A runs=()
+#set the run array
+runs[RUN_1]=$(echo "220114_A00618_0204_AHKWWJDSX2")
+runs[RUN_2]=$(echo "220121_A00618_0207_AHKWLGDSX2")
+
+out_folder=${HOME}/BATCH_20220218/LISTS
+mkdir -p ${out_folder}
+
+for run_n in RUN_1 RUN_2
+do
+run_name=(${runs[${run_n}]})
+echo ${run_name}
+
+find -L /analisi_da_consegnare/burlo/${run_name} -type f -name "*.gz" | fgrep -v "Undetermined"| sort > ${out_folder}/${run_n}_files_list.txt
+done
+```
+
+Generate a list of commands to merge data from the 2 different runs
+
+```bash
+out_path=${HOME}/BATCH_20220218/0.RAW_DATA
+base_lists=${HOME}/BATCH_20220218/LISTS
+
+(paste -d " " ${base_lists}/RUN_1_files_list.txt ${base_lists}/RUN_2_files_list.txt | awk -v outfile=${out_path} '{OFS=" "}{split($1,a,"/");split(a[7],b,"_"); print "cat",$0,">",outfile"/"b[1]"_"b[2]"_L001_"b[3]"_"b[4]}') > ${base_lists}/MERGE_batch_20220218.sh
+
+```
+
+The command generated can be used to merge the fastq files. In this case the command will also take care of the file naming, using the [**Illumina convention**](https://support.illumina.com/help/BaseSpace_OLH_009008/Content/Source/Informatics/BS/NamingConvention_FASTQ-files-swBS.htm).
 
 Absolute paths of the fastq files (saparate files for R1 and R2 strand) to be processed, named with the **Illumina convention**, demultiplexed.
 
