@@ -48,7 +48,7 @@ declare -A runs=()
 runs[RUN_1]=$(echo "220114_A00618_0204_AHKWWJDSX2")
 runs[RUN_2]=$(echo "220121_A00618_0207_AHKWLGDSX2")
 
-out_folder=${HOME}/BATCH_20220218/LISTS
+out_folder=${HOME}/analyses/BATCH_20220218/LISTS
 mkdir -p ${out_folder}
 
 for run_n in RUN_1 RUN_2
@@ -64,7 +64,7 @@ Generate a list of commands to merge data from the 2 different runs
 
 ```bash
 out_path=${HOME}/BATCH_20220218/0.RAW_DATA
-base_lists=${HOME}/BATCH_20220218/LISTS
+base_lists=${HOME}/analyses/BATCH_20220218/LISTS
 
 (paste -d " " ${base_lists}/RUN_1_files_list.txt ${base_lists}/RUN_2_files_list.txt | awk -v outfile=${out_path} '{OFS=" "}{split($1,a,"/");split(a[7],b,"_"); print "cat",$0,">",outfile"/"b[1]"_"b[2]"_L001_"b[3]"_"b[4]}') > ${base_lists}/MERGE_batch_20220218.sh
 
@@ -132,7 +132,7 @@ To exploit the trimming functions of the pipeline, the parameters:
 + tpcR1
 + tpcR2
 
-should be set according to the desired number of bp to trim from each read.
+should be set according to the desired number of base pairs to trim from each read.
 
 ### Running the pipeline
 
@@ -140,7 +140,7 @@ There are differen ways to run the pipeline: **Local mode**, **Cluster mode** or
 
 ### Local mode
 
-In Local mode, the pipeline is execute in an interactive shell session (locally or on a cluster) and all the rules are treated as processes that can be run sequentially or in parallel, depending on the resources provided. One example of a Local execution is:
+In Local mode, the pipeline is executed in an interactive shell session (locally or on a cluster) and all the rules are treated as processes that can be run sequentially or in parallel, depending on the resources provided. One example of a Local execution is:
 
 ```bash
 conda activate snakemake
