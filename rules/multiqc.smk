@@ -17,7 +17,7 @@ rule multiqc_pre:
     config["log_dir"] + "/multiqc_pre.log",
     config["log_dir"] + "/multiqc_pre.e"
   envmodules:
-    "multiqc/1.9"
+    "multiqc"
   shell: 
     """
     #collect fastq results for original data
@@ -43,7 +43,7 @@ rule multiqc_post:
     config["log_dir"] + "/multiqc_post.log",
     config["log_dir"] + "/multiqc_post.e"
   envmodules:
-    "multiqc/1.9"
+    "multiqc"
   shell: 
     """
     #multiqc collection for trimmed data
