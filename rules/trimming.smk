@@ -12,7 +12,7 @@ rule trimming_pe:
     params:
         trim_tool=config['TRIM_TOOL'],
         extra="-V --detect_adapter_for_pe -W "+ config['rules']['trimming_pe']['w'] +" -M "+config['rules']['trimming_pe']['q']+" -5 -3 -l "+config['rules']['trimming_pe']['len'] + " -f "+ config['rules']['trimming_pe']['cR1'] + " -F "+ config['rules']['trimming_pe']['cR2'] + " -t " + config['rules']['trimming_pe']['tpcR1'] + " -T " + config['rules']['trimming_pe']['tpcR2'] + " " + config['rules']['trimming_pe']['extra_args']
-    threads: 12
+    threads: 8
     resources:
         mem_mb=5000
     benchmark:
