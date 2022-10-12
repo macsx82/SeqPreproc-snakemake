@@ -26,12 +26,17 @@ rule fastq_qc_pre:
         config["log_dir"] + "/{sample}-qc-before-trim.log",
         config["log_dir"] + "/{sample}-qc-before-trim.err"
     threads: 2
+    resources:
+        mem_mb=4000
+    benchmark:
+        BASE_OUT +"/"+config["fastqc_pre_dir"]+ "/{sample}_fastqc_pre.tsv"
     envmodules:
         "fastqc"
     params:
         dir = expand('{BASE_DIR}/{QC_DIR}/', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"]),
         qc_tool = config["QC_TOOL"]
     message: """--- Quality check of raw data with FastQC before trimming."""
+    group: "preproc"
     shell:
         """
         mkdir -p {params.dir};
