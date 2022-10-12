@@ -1,7 +1,7 @@
 #define rule for fastqc run on data
 rule fastq_qc_pre_r1:
-    wildcard_constraints:
-        sample='.+_R1_.+'
+    # wildcard_constraints:
+    #     sample='.+_R1_.+'
     output:
         BASE_OUT + "/" + config["fastqc_pre_dir"] + "/{sample}_fastqc.html",
         BASE_OUT + "/" + config["fastqc_pre_dir"] + "/{sample}_fastqc.zip"
@@ -29,8 +29,8 @@ rule fastq_qc_pre_r1:
         """
 
 rule fastq_qc_pre_r2:
-    wildcard_constraints:
-        sample=".+_R2_.+"
+    # wildcard_constraints:
+    #     sample=".+_R2_.+"
     output:
         BASE_OUT + "/" + config["fastqc_pre_dir"] + "/{sample}_fastqc.html",
         BASE_OUT + "/" + config["fastqc_pre_dir"] + "/{sample}_fastqc.zip"

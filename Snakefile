@@ -19,6 +19,7 @@ min_version("5.31.0")
 
 #read samplesheet
 samples_df = pd.read_table(config["samples"], sep=" ", header=0, dtype='object')
+# samples_df = pd.read_table("/home/max/analyses/RNA-seq/data_production/20221012/LISTS/RNA-seq_manifest.tsv", sep=" ", header=0, dtype='object')
 #get samples ids from tablesheet
 sample_names = list(samples_df.SAMPLE_ID)
 # we need file names for R1 and R2
