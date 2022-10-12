@@ -45,7 +45,8 @@ rule all:
 
 include_prefix="rules"
 include:
-    include_prefix + "/fq_preproc_split.smk"
+    include_prefix + "/fq_preproc.smk"
+    # include_prefix + "/fq_preproc_split.smk"
 include:
     include_prefix + "/trimming.smk"
 include:
