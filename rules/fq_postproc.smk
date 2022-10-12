@@ -23,5 +23,4 @@ rule fastq_qc_post:
         """
         mkdir -p {params.dir};
         {params.qc_tool} -o {params.dir} -t {threads} -f fastq {input[0]} {input[1]} 2>> {log[1]}
-        # {params.qc_tool} -o {params.dir} -f fastq {input[1]} 2>> {log[1]}
         """
