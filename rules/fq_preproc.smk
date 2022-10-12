@@ -17,15 +17,14 @@ rule fastq_qc_pre:
         # BASE_OUT + "/" + config["fastqc_pre_dir"] + "/{sample}_fastqc.done"
         # BASE_OUT + "/" + config["fastqc_pre_dir"] + "/{sample}_R2_fastqc.html",
         # BASE_OUT + "/" + config["fastqc_pre_dir"] + "/{sample}_R2_fastqc.zip"
-        expand('{BASE_DIR}/{QC_DIR}/{sample}_R1_fastqc.{ext}', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"], sample=sample_names,ext=['html','zip']),
-        expand('{BASE_DIR}/{QC_DIR}/{sample}_R2_fastqc.{ext}', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"], sample=sample_names,ext=['html','zip'])
+        expand('{BASE_DIR}/{QC_DIR}/{{sample}}_R1_fastqc.{ext}', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"], sample=sample_names,ext=['html','zip']),
+        expand('{BASE_DIR}/{QC_DIR}/{{sample}}_R2_fastqc.{ext}', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"], sample=sample_names,ext=['html','zip'])
     input:
         r1 = lambda wc: samples_df[samples_df.SAMPLE_ID == (wc.sample).split(sep="_")[0]].fq1,
         r2 = lambda wc: samples_df[samples_df.SAMPLE_ID == (wc.sample).split(sep="_")[0]].fq2
     log:
-        # config["log_dir"] + "/{sample}-qc-before-trim.log"
         config["log_dir"] + "/{sample}-qc-before-trim.log",
-        config["log_dir"] + "/{sample}-qc-before-trim.log"
+        config["log_dir"] + "/{sample}-qc-before-trim.err"
     threads: 2
     envmodules:
         "fastqc"
