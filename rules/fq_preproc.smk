@@ -35,11 +35,12 @@ rule fastq_qc_pre:
         "fastqc"
     params:
         dir = expand('{BASE_DIR}/{QC_DIR}/', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"]),
-        qc_tool = config["QC_TOOL"]
+        qc_tool = config["QC_TOOL"],
+        extra_args= config["rules"]["fastq_qc"]["extra_args"]
     message: """--- Quality check of raw data with FastQC before trimming."""
     group: "preproc"
     shell:
         """
         mkdir -p {params.dir};
-        {params.qc_tool} -o {params.dir} -t {threads} -f fastq {input.r1} {input.r2} 2> {log[1]}
+        {params.qc_tool} -o {params.dir} -t {threads} -f fastq {params.extra_args} {input.r1} {input.r2} 2> {log[1]}
         """

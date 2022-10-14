@@ -14,7 +14,8 @@ rule fastq_qc_post:
         BASE_OUT +"/"+config["fastqc_post_dir"]+ "/{sample}_fastqc_post.tsv"
     params:
         dir = expand('{BASE_DIR}/{QC_DIR}/', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_post_dir"]),
-        qc_tool = config["QC_TOOL"]
+        qc_tool = config["QC_TOOL"],
+        extra_args= config["rules"]["fastq_qc"]["extra_args"]
     envmodules:
         "fastqc"
     group: "preproc"
@@ -22,5 +23,5 @@ rule fastq_qc_post:
     shell:
         """
         mkdir -p {params.dir};
-        {params.qc_tool} -o {params.dir} -t {threads} -f fastq {input[0]} {input[1]} 2>> {log[1]}
+        {params.qc_tool} -o {params.dir} -t {threads} -f fastq {params.extra_args} {input[0]} {input[1]} 2>> {log[1]}
         """
