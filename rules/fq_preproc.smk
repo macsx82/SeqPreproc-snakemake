@@ -32,7 +32,7 @@ rule fastq_qc_pre:
     benchmark:
         BASE_OUT +"/"+config["fastqc_pre_dir"]+ "/{sample}_fastqc_pre.tsv"
     envmodules:
-        "fastqc"
+        "FastQC"
     params:
         dir = expand('{BASE_DIR}/{QC_DIR}/', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"]),
         qc_tool = config["QC_TOOL"],
