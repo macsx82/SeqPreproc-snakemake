@@ -47,6 +47,6 @@ rule fastq_qc_pre:
     shell:
         """
         mkdir -p {params.dir};
-        # {params.qc_tool} -o {params.dir} -t {threads} -f fastq {params.extra_args} {input.r1} {input.r2} 2> {log[1]}
         {params.qc_tool} -o {params.dir} -t {threads} -f fastq {params.extra_args} {input.current_fastq} 2> {log[1]}
         """
+        # {params.qc_tool} -o {params.dir} -t {threads} -f fastq {params.extra_args} {input.r1} {input.r2} 2> {log[1]}
