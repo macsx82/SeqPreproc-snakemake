@@ -19,13 +19,15 @@ rule fastq_qc_pre:
         # BASE_OUT + "/" + config["fastqc_pre_dir"] + "/{sample}_R2_fastqc.zip"
         # expand('{BASE_DIR}/{QC_DIR}/{{sample}}_R1_fastqc.{ext}', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"], sample=sample_names,ext=['html','zip']),
         # expand('{BASE_DIR}/{QC_DIR}/{{sample}}_R2_fastqc.{ext}', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"], sample=sample_names,ext=['html','zip'])
-        # expand('{BASE_DIR}/{QC_DIR}/{{sample}}_fastqc.{ext}', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"], sample=R1+R2,ext=['html','zip'])
-        expand('{BASE_DIR}/{QC_DIR}/{{sample}}_fastqc.{ext}', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"], sample=sample_names,ext=['html','zip'])
+        expand('{BASE_DIR}/{QC_DIR}/{{sample}}_fastqc.{ext}', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"], sample=R1+R2,ext=['html','zip'])
+        # expand('{BASE_DIR}/{QC_DIR}/{{sample}}_fastqc.{ext}', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"], sample=sample_names,ext=['html','zip'])
+
     input:
         # r1 = lambda wc: samples_df[samples_df.SAMPLE_ID == (wc.sample).split(sep="_")[0]].fq1,
         # r2 = lambda wc: samples_df[samples_df.SAMPLE_ID == (wc.sample).split(sep="_")[0]].fq2
-        r1 = lambda wc: samples_df[samples_df.SAMPLE_ID == wc.sample].fq1,
-        r2 = lambda wc: samples_df[samples_df.SAMPLE_ID == wc.sample].fq2
+        # r1 = lambda wc: samples_df[samples_df.SAMPLE_ID == wc.sample].fq1,
+        # r2 = lambda wc: samples_df[samples_df.SAMPLE_ID == wc.sample].fq2
+        [current_fastq] = lambda wc: list(filter(re.compile(wc.sample).match, all_fastq))
     log:
         config["log_dir"] + "/{sample}-qc-before-trim.log",
         config["log_dir"] + "/{sample}-qc-before-trim.err"
@@ -45,5 +47,6 @@ rule fastq_qc_pre:
     shell:
         """
         mkdir -p {params.dir};
-        {params.qc_tool} -o {params.dir} -t {threads} -f fastq {params.extra_args} {input.r1} {input.r2} 2> {log[1]}
+        # {params.qc_tool} -o {params.dir} -t {threads} -f fastq {params.extra_args} {input.r1} {input.r2} 2> {log[1]}
+        {params.qc_tool} -o {params.dir} -t {threads} -f fastq {params.extra_args} {input.current_fastq} 2> {log[1]}
         """

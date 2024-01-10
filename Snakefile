@@ -25,6 +25,8 @@ sample_names = list(samples_df.SAMPLE_ID)
 # we need file names for R1 and R2
 R1 = [ os.path.splitext(os.path.splitext(os.path.basename(fq1))[0])[0] for fq1 in samples_df.fq1]
 R2 = [ os.path.splitext(os.path.splitext(os.path.basename(fq2))[0])[0] for fq2 in samples_df.fq2]
+#we also need to define a list of all fastq, R1 and R2 together
+all_fastq=list(samples_df.fq1) + list(samples_df.fq2)
 # Define some variables
 PROJ= config["proj_name"]
 BASE_OUT=config["base_out"]
