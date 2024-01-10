@@ -37,9 +37,10 @@ localrules: all
 rule all:
     input:
         #multiqc output
-        orig_html = BASE_OUT + "/" + config["multiqc_dir"] + "/raw_multiqc.html", 
-        trim_html = BASE_OUT + "/" + config["multiqc_dir"] + "/trimmed_multiqc.html"
-
+        # orig_html = BASE_OUT + "/" + config["multiqc_dir"] + "/raw_multiqc.html", 
+        # trim_html = BASE_OUT + "/" + config["multiqc_dir"] + "/trimmed_multiqc.html"
+        #fq output
+        expand('{BASE_DIR}/{QC_DIR}/{{sample}}_fastqc.{ext}', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"], sample=sample_names,ext=['html','zip'])
 
 ##### load rules #####
 
@@ -47,9 +48,9 @@ include_prefix="rules"
 include:
     include_prefix + "/fq_preproc.smk"
     # include_prefix + "/fq_preproc_split.smk"
-include:
-    include_prefix + "/trimming.smk"
-include:
-    include_prefix + "/fq_postproc.smk"
-include:
-    include_prefix + "/multiqc.smk"
+# include:
+#     include_prefix + "/trimming.smk"
+# include:
+#     include_prefix + "/fq_postproc.smk"
+# include:
+#     include_prefix + "/multiqc.smk"
