@@ -42,7 +42,7 @@ rule all:
         # orig_html = BASE_OUT + "/" + config["multiqc_dir"] + "/raw_multiqc.html", 
         # trim_html = BASE_OUT + "/" + config["multiqc_dir"] + "/trimmed_multiqc.html"
         #fq output
-        expand('{BASE_DIR}/{QC_DIR}/{sample}_fastqc.{ext}', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"], sample=sample_names,ext=['html','zip'])
+        expand('{BASE_DIR}/{QC_DIR}/{sample}_fastqc.{ext}', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"], sample=R1+R2,ext=['html','zip'])
 
 ##### load rules #####
 
