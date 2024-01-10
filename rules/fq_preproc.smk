@@ -27,7 +27,7 @@ rule fastq_qc_pre:
         # r2 = lambda wc: samples_df[samples_df.SAMPLE_ID == (wc.sample).split(sep="_")[0]].fq2
         # r1 = lambda wc: samples_df[samples_df.SAMPLE_ID == wc.sample].fq1,
         # r2 = lambda wc: samples_df[samples_df.SAMPLE_ID == wc.sample].fq2
-        [current_fastq] = lambda wc: list(filter(re.compile(wc.sample).match, all_fastq))
+        current_fastq = lambda wc: list(filter(re.compile(wc.sample).match, all_fastq))[0]
     log:
         config["log_dir"] + "/{sample}-qc-before-trim.log",
         config["log_dir"] + "/{sample}-qc-before-trim.err"
