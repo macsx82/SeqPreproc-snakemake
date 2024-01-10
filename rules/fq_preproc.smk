@@ -19,8 +19,8 @@ rule fastq_qc_pre:
         # BASE_OUT + "/" + config["fastqc_pre_dir"] + "/{sample}_R2_fastqc.zip"
         # expand('{BASE_DIR}/{QC_DIR}/{{sample}}_R1_fastqc.{ext}', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"], sample=sample_names,ext=['html','zip']),
         # expand('{BASE_DIR}/{QC_DIR}/{{sample}}_R2_fastqc.{ext}', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"], sample=sample_names,ext=['html','zip'])
-        expand('{BASE_DIR}/{QC_DIR}/{{sample}}_fastqc.{ext}', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"], sample=R1+R2,ext=['html','zip'])
-        # expand('{BASE_DIR}/{QC_DIR}/{{sample}}_fastqc.{ext}', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"], sample=sample_names,ext=['html','zip'])
+        # expand('{BASE_DIR}/{QC_DIR}/{{sample}}_fastqc.{ext}', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"], sample=R1+R2,ext=['html','zip'])
+        expand('{BASE_DIR}/{QC_DIR}/{sample}_fastqc.{ext}', BASE_DIR=BASE_OUT, QC_DIR=config["fastqc_pre_dir"], sample=R1+R2,ext=['html','zip'])
 
     input:
         # r1 = lambda wc: samples_df[samples_df.SAMPLE_ID == (wc.sample).split(sep="_")[0]].fq1,
